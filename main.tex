@@ -27,20 +27,57 @@ Your abstract.
 
 At some point in the future quantum computers will have enough processing power or Qubits to successfully implement quantum algorithms that can break the encryption of our current state of the art public key exchange mechanisms. Once this happens there will be a need for robust quantum key exchange methods that allow privacy of message exchange to be maintained, even when subjected to a quantum computing algorithms. 
 
+This paper outlines the current weaknesses in public key exchange methods that rely on the a mathematically hard to compute private key and why these will be vulnerable to quantum computers. It will then outline some key solutions to this problem will be robust in a post quantum world. 
+
 \section{Literature Review}
 
 \subsection{Overview of current key exchange mechanisms}
 
-The methods currently available to us for key exchange fall into three main categories that all rely on the premise that there is publicly available information used for the key exchange between two parties and there is private information only known to the individual that it is hard to compute using a typical Turing state machine approach of classical computers. The three main categories are outlines below.
+The methods currently available to us for key exchange fall into three main categories that all rely on the premise that there is publicly available information used for the key exchange between two parties and there is also private information only known to the individual. The secrecy of the public key exchange relies on the fact  that it is hard to compute using a typical Turing state machine approach of classical computers. The three main categories are outlines below.
 
 \subsubsection{Prime Factorization}
-Breifly outline prime factorization.
+
+In the RSA method of cryptography, prime factorization is used as the basis for the algorithm's security. The RSA algorithm works by selecting two large prime numbers, p and q, and multiplying them together to obtain a product, $n = p*q$. This product n is then used as the modulus for the public and private keys.
+
+The security of RSA relies on the fact that it is difficult to factorize the large composite number n back into its two prime factors, p and q. Specifically, if someone knows the value of n, it is difficult for them to find p and q without trying all possible factors, which becomes computationally infeasible for large enough values of p and q.
+
+The private key in RSA cryptography is derived from the factors p and q of n, which are kept secret. The public key, on the other hand, is the modulus n and an exponent e, which is typically a small odd integer such as 3 or 65537.
+
+To encrypt a message using RSA, the message is first converted into a number and then raised to the power of the public exponent e modulo n. The resulting ciphertext can only be decrypted using the private key, which involves factoring the modulus n back into its two prime factors p and q.
+
+Thus, prime factorization plays a crucial role in the security of RSA cryptography. The larger the prime factors used in the algorithm, the more secure it is against attacks that attempt to factorize the modulus n.
 
 \subsubsection{Discrete Logs}
-Breifly outline dicrete logs.
+Discrete logarithms are used in various public key cryptography algorithms, such as Diffie-Hellman key exchange, ElGamal encryption, and digital signature schemes like the Digital Signature Algorithm (DSA) and Schnorr signature.
 
-\subsubsection{Elliptic Curves}
-Breifly outline prime elliptic curves.
+In these algorithms, the difficulty of computing discrete logarithms in certain mathematical groups is exploited to provide security guarantees.
+
+In the context of public key cryptography, the groups used are typically finite fields or elliptic curves, and the discrete logarithm problem refers to the challenge of finding the exponent required to generate a given element of the group from a fixed base element.
+
+For instance, in the Diffie-Hellman key exchange protocol, two parties agree on a shared group, a generator of that group, and publicly exchange their exponentiations of the generator. The shared secret key is computed from their respective exponentiations, which are then equal to each other, but difficult for an attacker to determine without knowledge of the secret exponents.
+
+The discrete logarithm problem is a key component of many public key cryptography algorithms, where it is used to provide security guarantees by making it computationally infeasible for an attacker to determine a secret key from its corresponding public key.
+
+\subsubsection{Discrete logs with Elliptic Curves}
+Elliptic curve cryptography is a type of public-key cryptography that is based on the mathematics of elliptic curves. Elliptic Curve Diffie-Hellman (ECDH) is an example of a public key exchange based on elliptic curves and is widely used in web browsers.
+
+In ECDH, two parties, say Alice and Bob, first agree on a publicly known elliptic curve E over a finite field F. They also choose a base point P on the curve, which is also publicly known.
+
+Each party, Alice and Bob, then chooses a secret integer, which is kept private. Alice's secret integer is denoted by a and Bob's secret integer is denoted by b. They use these secret integers to compute their respective public keys as follows:
+
+Alice computes her public key A = aP on the elliptic curve E.
+Bob computes his public key B = bP on the elliptic curve E.
+Alice and Bob then exchange their public keys A and B over an insecure channel.
+
+Once Alice and Bob have exchanged their public keys, they can derive a shared secret key using the following steps:
+
+Alice computes the point Q = aB on the elliptic curve E.
+Bob computes the point Q' = bA on the elliptic curve E.
+The shared secret key is then derived from the x-coordinate of the point Q (or Q') using a one-way hash function.
+
+The security of ECDH comes from the fact that it is difficult to compute the private keys a and b from the public keys A and B, even if the elliptic curve E and the base point P are known.
+
+ECDH allows two parties to derive a shared secret key without revealing their private keys over an insecure channel, and its security is based on the difficulty of computing discrete logarithms on the elliptic curve.
 
 \subsection{How current mechanisms are vulnerable to quantum computers}
 
@@ -48,54 +85,19 @@ Breifly outline prime elliptic curves.
 
 \subsection{Quantum robust methods}
 
+\subsection{Quantum key distribution using entagled photons}
+
+\subsection{Quantum key distribution using Muon detection }
 
 \section{Implementation}
+
+Using Q# or Qiskit to implement key exchange using entangled photons.
+
+\href{https://learn.microsoft.com/en-us/azure/quantum/tutorial-qdk-explore-entanglement?pivots=ide-azure-portal}{https://learn.microsoft.com/en-us/azure/quantum/tutorial-qdk-explore-entanglement?pivots=ide-azure-portal}
 
 \section{Evaluation}
 
 \section{Conclusions}
 
-
-
-
-
-
-First you have to upload the image file from your computer using the upload link in the file-tree menu. Then use the includegraphics command to include it in your document. Use the figure environment and the caption command to add a number and a caption to your figure. See the code for Figure \ref{fig:frog} in this section for an example.
-
-Note that your figure will automatically be placed in the most appropriate place for it, given the surrounding text and taking into account other figures or tables that may be close by. You can find out more about adding images to your documents in this help article on \href{https://www.overleaf.com/learn/how-to/Including_images_on_Overleaf}{including images on Overleaf}.
-
-\begin{figure}
-\centering
-\includegraphics[width=0.3\textwidth]{frog.jpg}
-\caption{\label{fig:frog}This frog was uploaded via the file-tree menu.}
-\end{figure}
-
-\subsection{How to add Tables}
-
-Use the table and tabular environments for basic tables --- see Table~\ref{tab:widgets}, for example. For more information, please see this help article on \href{https://www.overleaf.com/learn/latex/tables}{tables}. 
-
-\begin{table}
-\centering
-\begin{tabular}{l|r}
-Item & Quantity \\\hline
-Widgets & 42 \\
-Gadgets & 13
-\end{tabular}
-\caption{\label{tab:widgets}An example table.}
-\end{table}
-
-\subsection{How to write Mathematics}
-
-\LaTeX{} is great at typesetting mathematics. Let $X_1, X_2, \ldots, X_n$ be a sequence of independent and identically distributed random variables with $\text{E}[X_i] = \mu$ and $\text{Var}[X_i] = \sigma^2 < \infty$, and let
-\[S_n = \frac{X_1 + X_2 + \cdots + X_n}{n}
-      = \frac{1}{n}\sum_{i}^{n} X_i\]
-denote their mean. Then as $n$ approaches infinity, the random variables $\sqrt{n}(S_n - \mu)$ converge in distribution to a normal $\mathcal{N}(0, \sigma^2)$.
-
-
-\subsection{How to add Citations and a References List}
-
-You can simply upload a \verb|.bib| file containing your BibTeX entries, created with a tool such as JabRef. You can then cite entries from it, like this: \cite{greenwade93}. Just remember to specify a bibliography style, as well as the filename of the \verb|.bib|. You can find a \href{https://www.overleaf.com/help/97-how-to-include-a-bibliography-using-bibtex}{video tutorial here} to learn more about BibTeX.
-
-If you have an \href{https://www.overleaf.com/user/subscription/plans}{upgraded account}, you can also import your Mendeley or Zotero library directly as a \verb|.bib| file, via the upload menu in the file-tree.
 
 \end{document}
