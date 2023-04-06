@@ -12,6 +12,14 @@
 \usepackage{amsmath}
 \usepackage{graphicx}
 \usepackage[colorlinks=true, allcolors=blue]{hyperref}
+\usepackage[
+backend=biber,
+style=alphabetic,
+sorting=ynt
+]{biblatex}
+\usepackage{csquotes}
+
+\addbibresource{references.bib}
 
 \title{Analysis of Post Quantum Cryptography and Comparison of Quantum Key Distribution mechanisms}
 \author{Lee Dale}
@@ -25,15 +33,20 @@ Your abstract.
 
 \section{Introduction}
 
-At some point in the future quantum computers will have enough processing power or Qubits to successfully implement quantum algorithms that can break the encryption of our current state of the art public key exchange mechanisms. Once this happens there will be a need for robust quantum key exchange methods that allow privacy of message exchange to be maintained, even when subjected to a quantum computing algorithms. 
+At some point in the future quantum computers will have enough processing power or Qubits to successfully implement quantum algorithms that can break the encryption of our current state of the art public key exchange mechanisms \cite{Bellizia2021Post-QuantumDesign}. Once this happens there will be a need for robust quantum key exchange methods that allow privacy of message exchange to be maintained, even when subjected to a quantum computing algorithms. 
 
-This paper outlines the current weaknesses in public key exchange methods that rely on the a mathematically hard to compute private key and why these will be vulnerable to quantum computers. It will then outline some key solutions to this problem will be robust in a post quantum world. 
+This paper outlines the current weaknesses in public key exchange methods that rely on the a mathematically hard to compute private key and why these will be vulnerable to quantum computers. It will then outline some key solutions to this problem that will be robust in a post quantum world. 
 
 \section{Literature Review}
 
 \subsection{Overview of current key exchange mechanisms}
+As it stands most communication methods used over the internet rely on asymmetric cryptography
 
-The methods currently available to us for key exchange fall into three main categories that all rely on the premise that there is publicly available information used for the key exchange between two parties and there is also private information only known to the individual. The secrecy of the public key exchange relies on the fact  that it is hard to compute using a typical Turing state machine approach of classical computers. The three main categories are outlines below.
+The methods currently available to us for key exchange fall into three main categories that all rely on the premise that there is publicly available information used for the key exchange between two parties and there is also private information only known to the individual. The secrecy of the public key exchange relies on the fact  that it is hard to compute using a typical Turing state machine approach of classical computers. 
+
+Anderson mentions \cite{AndersonR2020} "The technique is to make the security of the cipher depend on the difficulty of solving a certain mathematical problem. The two problems which are used in almost all fielded systems are factorization (used in most commercial systems) and discrete logarithm (used in many government systems)." 
+
+I have broken discrete logarithms into two categories, with the addition of discrete logarithms that use elliptic curves. These are outlined below.
 
 \subsubsection{Prime Factorization}
 
@@ -91,7 +104,7 @@ ECDH allows two parties to derive a shared secret key without revealing their pr
 
 \section{Implementation}
 
-Using Q# or Qiskit to implement key exchange using entangled photons.
+Using Q or Qiskit to implement key exchange using entangled photons.
 
 \href{https://learn.microsoft.com/en-us/azure/quantum/tutorial-qdk-explore-entanglement?pivots=ide-azure-portal}{https://learn.microsoft.com/en-us/azure/quantum/tutorial-qdk-explore-entanglement?pivots=ide-azure-portal}
 
@@ -99,5 +112,7 @@ Using Q# or Qiskit to implement key exchange using entangled photons.
 
 \section{Conclusions}
 
+\printbibliography
 
 \end{document}
+
