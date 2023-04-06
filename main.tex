@@ -27,10 +27,6 @@ sorting=ynt
 \begin{document}
 \maketitle
 
-\begin{abstract}
-Your abstract.
-\end{abstract}
-
 \section{Introduction}
 
 At some point in the future quantum computers will have enough processing power or Qubits to successfully implement quantum algorithms that can break the encryption of our current state of the art public key exchange mechanisms \cite{Bellizia2021Post-QuantumDesign}. Once this happens there will be a need for robust quantum key exchange methods that allow privacy of message exchange to be maintained, even when subjected to a quantum computing algorithms. 
@@ -93,7 +89,7 @@ The security of ECDH comes from the fact that it is difficult to compute the pri
 ECDH allows two parties to derive a shared secret key without revealing their private keys over an insecure channel, and its security is based on the difficulty of computing discrete logarithms on the elliptic curve.
 
 \subsection{How current mechanisms are vulnerable to quantum computers}
-
+In a 1984 paper David Deutch \cite{Deutsch1985QuantumComputer} discussed a universal quantum computer is which he shows that a quantum computer can evolve computational basis states into linear superposition's of each other. Building on this  work it was then shown by Peter Shor \cite{Shor1994AlgorithmsFactoring} that it was possible to design algorithms to factor large integer values and find discrete logarithms in polynomial time. These algorithms threaten the viability of the key exchange mechanisms discussed above and render them unusable should a quantum computer be built with enough Qubits to sucessfully run Shor's proposed algorithms.
 
 
 \subsection{Quantum robust methods}
@@ -105,8 +101,6 @@ ECDH allows two parties to derive a shared secret key without revealing their pr
 \section{Implementation}
 
 Using Q or Qiskit to implement key exchange using entangled photons.
-
-\href{https://learn.microsoft.com/en-us/azure/quantum/tutorial-qdk-explore-entanglement?pivots=ide-azure-portal}{https://learn.microsoft.com/en-us/azure/quantum/tutorial-qdk-explore-entanglement?pivots=ide-azure-portal}
 
 \section{Evaluation}
 
