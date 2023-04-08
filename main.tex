@@ -109,14 +109,21 @@ We can see the polynomial time algorithm will be much faster to brute force an i
 This means with a quantum computer it will become feasible for an attacker to find out the prime factors that make up a public key in a cryptographic encryption scheme that relies on the hardness of the prime factorization problem, and by extension discrete logs. If there came a time when a quantum computer could execute Shor's algorithms for 2048 bit encryption keys, this would render all current methods for public key cryptography useless.
 
 \subsection{Quantum robust methods}
-Various methods have been devised to deal with a world where quantum computers are able to crack encryption keys up to 2048 bits long. I will outline the most notable ones in this section. 
+Various methods have been devised to deal with a world where quantum computers are able to crack encryption keys up to 2048 bits long. Kumar and Garhwal state that quantum protocols are based on eithe rthe Heisenberg Uncertaintly principle or quantum entanglement \cite{Kumar2021State-of-the-ArtCryptography} I will outline the most notable methods in this section and then focus on quantum key distribution based on quantum entanglement. 
 
 \subsubsection{Lattice based cryptography}
+
+\subparagraph{Issues}
 
 \subsubsection{Quantum Key Distribution}
 The no cloning theorem in quantum mechanics leads us to an interesting way of distributing secrets keys between two parties. If we use a secret key that exists in a quantum entangled state and subsequently share this secret key between the two parties, there would always be a way to detect whether the key had been tampered with in transit. This is explained by the fact that if an eavesdropper had modified the key in any way (in quantum mechanics we say that the entangled state was observed) the secret key would have de-cohered into a completely different state and therefore each party would be able to detect the eavesdroppers attempt at intercepting the secret key. 
 
+\subparagraph{Issues}
+
 \subsubsection{Quantum key distribution using entangled photons}
+From Kumar and Garhwal \cite{Kumar2021State-of-the-ArtCryptography} quantum key distribution protocols are classified into two categories; Discrete variable QKD and Continuous variable QKD. Discrete variable QKD is based around the spin of an electron or the polarization of a single photon. Continuous variable QKD is mainly based around the use of a laser to store information in the form if a continuous light source.
+
+We will concentrate here on a discrete variable QKD example in the BB84 protocol which uses the polarization of single photons.  
 
 \subsubsection{Quantum key distribution using Muon detection }
 
