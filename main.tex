@@ -106,7 +106,7 @@ Instead with polynomial time we get:
 
 We can see the polynomial time algorithm will be much faster to brute force an integer factorization problem. The time taken will also grow less quickly with the polynomial time complexity than with the exponential time complexity.
 
-This means with a quantum computer it will become feasible for an attacker to find out the prime factors that make up a public key in a cryptographic encryption scheme that relies on the hardness of the prime factorization problem and by extension discrete logs. If there came a time when a quntum computer could execute Shor's algorithms for 2048 bit encryption keys, this would render all current methods for public key cryptography useless.
+This means with a quantum computer it will become feasible for an attacker to find out the prime factors that make up a public key in a cryptographic encryption scheme that relies on the hardness of the prime factorization problem, and by extension discrete logs. If there came a time when a quantum computer could execute Shor's algorithms for 2048 bit encryption keys, this would render all current methods for public key cryptography useless.
 
 \subsection{Quantum robust methods}
 Various methods have been devised to deal with a world where quantum computers are able to crack encryption keys up to 2048 bits long. I will outline the most notable ones in this section. 
@@ -114,6 +114,7 @@ Various methods have been devised to deal with a world where quantum computers a
 \subsubsection{Lattice based cryptography}
 
 \subsubsection{Quantum Key Distribution}
+The no cloning theorem in quantum mechanics leads us to an interesting way of distributing secrets keys between two parties. If we use a secret key that exists in a quantum entangled state and subsequently share this secret key between the two parties, there would always be a way to detect whether the key had been tampered with in transit. This is explained by the fact that if an eavesdropper had modified the key in any way (in quantum mechanics we say that the entangled state was observed) the secret key would have de-cohered into a completely different state and therefore each party would be able to detect the eavesdroppers attempt at intercepting the secret key. 
 
 \subsubsection{Quantum key distribution using entangled photons}
 
