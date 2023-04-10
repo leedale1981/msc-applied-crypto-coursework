@@ -109,23 +109,30 @@ We can see the polynomial time algorithm will be much faster to brute force an i
 This means with a quantum computer it will become feasible for an attacker to find out the prime factors that make up a public key in a cryptographic encryption scheme that relies on the hardness of the prime factorization problem, and by extension discrete logs. If there came a time when a quantum computer could execute Shor's algorithms for 2048 bit encryption keys, this would render all current methods for public key cryptography useless.
 
 \subsection{Quantum robust methods}
-Various methods have been devised to deal with a world where quantum computers are able to crack encryption keys up to 2048 bits long. Kumar and Garhwal state that quantum protocols are based on eithe rthe Heisenberg Uncertaintly principle or quantum entanglement \cite{Kumar2021State-of-the-ArtCryptography} I will outline the most notable methods in this section and then focus on quantum key distribution based on quantum entanglement. 
+Various methods have been devised to deal with a world where quantum computers are able to crack encryption keys up to 2048 bits long. Kumar and Garhwal state that quantum protocols are based on either the Heisenberg Uncertainty principle or quantum entanglement \cite{Kumar2021State-of-the-ArtCryptography} I will outline the most notable methods in this section and then focus on quantum key distribution based on quantum entanglement. 
 
 \subsubsection{Lattice based cryptography}
 
 \subparagraph{Issues}
 
 \subsubsection{Quantum Key Distribution}
-The no cloning theorem in quantum mechanics leads us to an interesting way of distributing secrets keys between two parties. If we use a secret key that exists in a quantum entangled state and subsequently share this secret key between the two parties, there would always be a way to detect whether the key had been tampered with in transit. This is explained by the fact that if an eavesdropper had modified the key in any way (in quantum mechanics we say that the entangled state was observed) the secret key would have de-cohered into a completely different state and therefore each party would be able to detect the eavesdroppers attempt at intercepting the secret key. 
-
-\subparagraph{Issues}
+The no cloning theorem in quantum mechanics leads us to an interesting way of distributing secret keys between two parties. If we use a secret key that exists in a quantum entangled state and subsequently share this secret key between the two parties, there would always be a way to detect whether the key had been tampered with in transit. This is explained by the fact that if an eavesdropper had modified the key in any way (in quantum mechanics we say that the entangled state was observed) the secret key would have de-cohered into a completely different state and therefore each party would be able to detect the eavesdroppers attempt at intercepting the secret key. 
 
 \subsubsection{Quantum key distribution using entangled photons}
 From Kumar and Garhwal \cite{Kumar2021State-of-the-ArtCryptography} quantum key distribution protocols are classified into two categories; Discrete variable QKD and Continuous variable QKD. Discrete variable QKD is based around the spin of an electron or the polarization of a single photon. Continuous variable QKD is mainly based around the use of a laser to store information in the form if a continuous light source.
 
 We will concentrate here on a discrete variable QKD example in the BB84 protocol which uses the polarization of single photons.  
 
+The BB84 protocol was first introduced by Charles Bennet and Gilles Brassard in 1984 \cite{Bennett2020QuantumTossing} . In the BB84 protocol the two parties, say Alice and Bob establish two communication channels. The first is a classical communication channel that conforms to the laws of classical physics and the second is a quantum communication channel which conforms to the laws of quantum mechanics. Any eavesdropping on communications over the classical channel is undetectable, in contrast communications over the quantum channel by virtue of the laws of quantum mechanics can highlight with high probability, any interference in the set of bits transmitted . An encryption key is established over the quantum communication channel and this cryptographic key is encoded using the polarization states of individual photons sent over the channel. Furthermore the polarization states of the photons are entangled into a single quantum wave function. Bob and Alice use the a set of random bits sent over the quantum communication channel as a one time pad for encryption. They agree over the classical channel whether their bits have been interfered with and discard any bits that they deem compromised. Once they have enough bits to form an encryption key, they can use this key to encrypt messages over the classical channel, happy in the knowledge that they have used a random, one-time encryption key that nobody else has knowledge of.
+
+The interesting thing about the BB84 protocol is that both channels can be public channels and the two parities do not need to share any prior information before exchanging a symmetric key. The symmetric key exchanged can be guaranteed to be  secret as any form in eavesdropping will be detected by either party. No amount of computing power can avoid detection over the quantum channel and this is why QKD is a quantum robust method of communication. The technical details of the BB84 protocol are outlined in the implementation section.
+
+
 \subsubsection{Quantum key distribution using Muon detection }
+
+
+\subparagraph{Issues}
+
 
 \section{Implementation}
 
