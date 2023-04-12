@@ -38,22 +38,40 @@
 
         // We now check for eavesdropping by comparing Alice and Bobs results and determining the percentage of differences.
         Message("Getting percentage difference in results...");
-        let percentage = CheckForEavesdropping(sharedValues, sharedResults);  
+        let (indicesToUse, percentage) = CheckForEavesdropping(sharedValues, sharedResults);  
         Message("Difference " + DoubleAsString(percentage) + "%");
          
+        Message("Getting shared key...");
+        let key = GetSharedKey(indicesToUse, sharedValues);
+        Message("Key length is " + IntAsString(Length(key)));
+
         return Zero;
     }
 
-    operation CheckForEavesdropping(values: Bool[], results: Bool[]) : Double {
+    operation GetSharedKey(indicesToUse: Int[], sharedValues: Bool[]) : Bool[] {
+        mutable keyBits = [false, size = 0];
+
+        for index in indicesToUse {
+            set keyBits += [sharedValues[index]];
+        }
+
+        return keyBits;
+    }
+
+    operation CheckForEavesdropping(values: Bool[], results: Bool[]) : (Int[], Double) {
         mutable differences = 0;
+        mutable indicesToUse = [0, size = 0];
 
         for index in 0..Length(values) -1{
-            if values[index] != results[index] {
+            if values[index] == results[index] {
+                set indicesToUse += [index];
+			}
+            else {
                 set differences += 1;
             }
         }
 
-        return (IntAsDouble(differences)/IntAsDouble(Length(values))) * 100.0;
+        return (indicesToUse, (IntAsDouble(differences)/IntAsDouble(Length(values))) * 100.0);
     }
     
     operation EncodeBits(qubits: Qubit[]) : (Bool[], Bool[]) {
