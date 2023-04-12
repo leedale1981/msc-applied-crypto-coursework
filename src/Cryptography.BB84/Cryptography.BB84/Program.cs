@@ -1,3 +1,3 @@
 ﻿using Cryptography.BB84;
 
-Console.WriteLine($"Encryption key: {BB84.GetEncryptionKey(6)}");
+BB84.Run(6);

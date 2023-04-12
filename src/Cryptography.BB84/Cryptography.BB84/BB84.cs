@@ -1,28 +1,21 @@
-﻿using Microsoft.Quantum.Simulation.Simulators;
-using Quantum.Cryptography.BB84.Quantum;
-using Microsoft.Quantum.Simulation.Core;
+﻿using Cryptography.BB84.Quantum;
+using Microsoft.Quantum.Simulation.Simulators;
 
 namespace Cryptography.BB84;
 
 public class BB84
 {
-    public static int GetEncryptionKey(int keyLength)
+    public static void Run(int n)
     {
-        int ones = 0;
-
+        // Use a quantum computer to get bit values.
         using QuantumSimulator simulator = new();
 
-        for (int index = 0; index < 1000; index++)
-        {
-            Result result = GetRandomResult.Run(simulator).Result;
+        // Get 4n random bits.
+        int bitLength = n * 4;
 
-            if (result == Result.One)
-            {
-                ones++;
-            }
-        }
+        var result = RunBB84Example.Run(simulator, bitLength);
 
-        return 1;
+        Console.ReadKey();
     }
 }
 
