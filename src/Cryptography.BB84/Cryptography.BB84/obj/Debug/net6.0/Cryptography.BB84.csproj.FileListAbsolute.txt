@@ -1,5 +1,0 @@
-C:\src\msc-applied-crypto-coursework\src\Cryptography.BB84\Cryptography.BB84\obj\Debug\net6.0\Cryptography.BB84.csproj.AssemblyReference.cache
-C:\src\msc-applied-crypto-coursework\src\Cryptography.BB84\Cryptography.BB84\obj\Debug\net6.0\Cryptography.BB84.GeneratedMSBuildEditorConfig.editorconfig
-C:\src\msc-applied-crypto-coursework\src\Cryptography.BB84\Cryptography.BB84\obj\Debug\net6.0\Cryptography.BB84.AssemblyInfoInputs.cache
-C:\src\msc-applied-crypto-coursework\src\Cryptography.BB84\Cryptography.BB84\obj\Debug\net6.0\Cryptography.BB84.AssemblyInfo.cs
-C:\src\msc-applied-crypto-coursework\src\Cryptography.BB84\Cryptography.BB84\obj\Debug\net6.0\Cryptography.BB84.csproj.CoreCompileInputs.cache
