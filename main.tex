@@ -6,7 +6,7 @@
 
 % Set page size and margins
 % Replace `letterpaper' with `a4paper' for UK/EU standard size
-\usepackage[letterpaper,top=1cm,bottom=1cm,left=2cm,right=2cm,marginparwidth=1.75cm]{geometry}
+\usepackage[letterpaper,top=3cm,bottom=3cm,left=4cm,right=4cm,marginparwidth=1.75cm]{geometry}
 
 % Useful packages
 \usepackage{amsmath}
@@ -19,6 +19,11 @@ sorting=ynt
 ]{biblatex}
 \usepackage{csquotes}
 \usepackage{listings}
+\lstset{
+    breaklines=true,                    % sets automatic line breaking
+%   breakatwhitespace=false,            % sets if automatic breaks should only happen at whitespace
+    prebreak = \raisebox{0ex}[0ex][0ex]{\ensuremath{\hookleftarrow}} % just as an example
+}
 \usepackage{color}
 \lstloadlanguages{C,C++,csh,Java}
 
@@ -49,47 +54,53 @@ I have broken discrete logarithms into two categories, with the addition of disc
 
 \subsubsection{Prime Factorization}
 
-In current key exchange methods such as RSA, prime factorization is the main basis for the algorithm's security. 
+In current key exchange methods such as the RSA method, prime factorization is the main basis for the algorithm's security. 
 
-A factorization problem hinges on the fact that it is easy to compute a number (N) from two primes, but it is difficult to compute which prime numbers are factors of the product N. Imagine two 64 bit prime numbers used to create a 128bit modulus. A 64 bit number can be in the range \[2^{64}\] which is a large number. To brute force the factorization you would have to compute all possible primes that factorize with another 64 bit prime to make N
+A factorization problem hinges on the fact that it is easy to compute a number N from two primes, but it is difficult to compute which prime numbers are factors of the product N. Imagine two 64 bit prime numbers used to create a 128bit modulus. A 64 bit number can be in the range \[2^{64}\] which is a large number. To brute force the factorization you would have to compute all possible primes that factorize with another 64 bit prime to make N
 
 The RSA algorithm works by selecting two large prime numbers, p and q, and multiplying them together to obtain a product, $n = p*q$. This product n is then used as the modulus for the public and private keys.
 
-The private key in RSA cryptography is derived from the factors p and q of n, which are kept secret. The public key, on the other hand, is the modulus n and an exponent e, which is typically a small odd integer such as 3 or 65537.
+The private key in RSA cryptography is derived from the factors p and q of n, which are kept secret. The public key, on the other hand, is the modulus n and an exponent e and are shared between the two parties.
 
-To encrypt a message using RSA, the message is first converted into a number and then raised to the power of the public exponent e modulo n. The resulting ciphertext can only be decrypted using the private key, which involves factoring the modulus n back into its two prime factors p and q.
+When we encrypt a message with RSA, the message is first converted into a number and then raised to the power of the public exponent e modulo n. The resulting ciphertext can only be decrypted using the private key. To obtain this private key would  involve factoring the modulus n back into its two prime factors p and q.
+
+The hardness of the prime factorization problem comes from the fact that to try and mathematically compute which prime factors make up the modulus would need a classical computer to execute an algorithm that tries all possible factors. This would fall into exponential time complexity and therefore, for any large enough modulus becomes an impossible problem to solve for a classical computer in any reasonable amount of time.  In contrast to this a quantum computer with the right algorithm would be able to easily try all possible factors in polynomial time.
 
 \subsubsection{Discrete Logs}
-Discrete logarithms are used in various public key cryptography algorithms, such as Diffie-Hellman key exchange, ElGamal encryption, and digital signature schemes like the Digital Signature Algorithm (DSA) and Schnorr signature.
+Discrete logarithms are used in various public key cryptography algorithms, such as Diffie-Hellman key exchange, ElGamal encryption, and digital signature schemes like the Digital Signature Algorithm (DSA).
 
-In these algorithms, the difficulty of computing discrete logarithms in certain mathematical groups is exploited to provide security guarantees.
+In discrete log algorithms the difficulty comes from the fact that computing a discrete logarithm in certain mathematical groups is a hard problem and is used as the guarantee of security.
 
-In the context of public key cryptography, the groups used are typically finite fields or elliptic curves, and the discrete logarithm problem refers to the challenge of finding the exponent required to generate a given element of the group from a fixed base element.
+In the context of public key cryptography, the groups used are typically elliptic curves, and the discrete logarithm problem refers to the challenge of finding the exponent required to generate a given element of the group from a fixed base element.
 
-For instance, in the Diffie-Hellman key exchange protocol, two parties agree on a shared group, a generator of that group, and publicly exchange their exponentiation of the generator. The shared secret key is computed from their respective exponentiation, which are then equal to each other, but difficult for an attacker to determine without knowledge of the secret exponents.
+For example, in the Diffie-Hellman key exchange protocol, two parties agree on a generator and a prime number, and publicly exchange their exponentiation of the generator with a randomly generated value modulus the prime number. The shared secret key is computed from their respective exponentiation of each others public key with their random value modulus the prime number. The difficulty for an attacker is determining the secret exponents used by both parties to generate the public key.
 
-The discrete logarithm problem is a key component of many public key cryptography algorithms, where it is used to provide security guarantees by making it computationally infeasible for an attacker to determine a secret key from its corresponding public key.
+The discrete logarithm problem is a key component of many public key cryptography algorithms, where it is used to provide security guarantees by making it computationally infeasible for an attacker to determine a secret key from its corresponding public key. As with the RSA method, any classical computer would end up using an algorithm with exponential time complexity, where a quantum computer would execute in polynomial time.
 
 \subsubsection{Discrete logs with Elliptic Curves}
 Elliptic curve cryptography is a type of public-key cryptography that is based on the mathematics of elliptic curves. Elliptic Curve Diffie-Hellman (ECDH) is an example of a public key exchange based on elliptic curves and is widely used in web browsers.
 
-In ECDH, two parties, say Alice and Bob, first agree on a publicly known elliptic curve E over a finite field F. They also choose a base point P on the curve, which is also publicly known.
+In ECDH, two parties, first agree on a publicly known elliptic curve. They then choose a base point on the curve, which is also publicly known.
 
-Each party, Alice and Bob, then chooses a secret integer, which is kept private. Alice's secret integer is denoted by a and Bob's secret integer is denoted by b. They use these secret integers to compute their respective public keys as follows:
+Each party, then chooses a secret value, which is kept private. They use these secret values to compute their respective public keys.
 
-Alice computes her public key A = aP on the elliptic curve E.
-Bob computes his public key B = bP on the elliptic curve E.
+Lets say that two parties called Alice and Bob want to communicate using ECDH. They compute their public keys as follows:
+
+Alice computes her public key A = ag on the elliptic curve.
+Bob computes his public key B = bg on the elliptic curve.
 Alice and Bob then exchange their public keys A and B over an insecure channel.
+
+Where Alice's secret value is a, Bob's is b and g is the generator which is a value chosen to lie on the elliptic curve.
 
 Once Alice and Bob have exchanged their public keys, they can derive a shared secret key using the following steps:
 
-Alice computes the point Q = aB on the elliptic curve E.
-Bob computes the point Q' = bA on the elliptic curve E.
-The shared secret key is then derived from the x-coordinate of the point Q (or Q') using a one-way hash function.
+Alice computes the point K = aB on the elliptic curve.
+Bob computes the point K = bA on the elliptic curve.
+The shared secret key is then derived from the x-coordinate of the point K which matches for both Alice and Bob.
 
-The security of ECDH comes from the fact that it is difficult to compute the private keys a and b from the public keys A and B, even if the elliptic curve E and the base point P are known.
+The security of ECDH comes from the fact that it is difficult to compute the private keys a and b from the public keys A and B, even if the elliptic curve and the generator are known.
 
-ECDH allows two parties to derive a shared secret key without revealing their private keys over an insecure channel, and its security is based on the difficulty of computing discrete logarithms on the elliptic curve.
+All the methods above are vulnerable to quantum computers by the fact that they rely on the exponential time complexity of the mathematically hard problem. As we will understand next quantum computers can drastically reduce the execution time of finding out the secret keys which could make all current cryptography methods obsolete.
 
 \subsection{How current mechanisms are vulnerable to quantum computers}
 In a 1984 paper David Deutch \cite{Deutsch1985QuantumComputer} discussed a universal quantum computer in which he shows that a quantum computer can evolve computational basis states into linear superposition's of each other. Building on this work a decade later it was then shown by Peter Shor \cite{Shor1994AlgorithmsFactoring} that it was possible to design algorithms to factor large integer values and find discrete logarithms in polynomial time. These algorithms threaten the viability of the key exchange mechanisms discussed above and render them unusable should a quantum computer be built with enough Qubits to successfully run Shor's proposed algorithms.
@@ -144,7 +155,7 @@ The advantage of this method is that the source of bits comes from an external s
 
 \section{Implementation}
 
-The code \cite{Dale2023Leedale1981/msc-applied-crypto-coursework:Code.} in listing 1 is a Q\# implementation of the BB84 protocol and runs through the steps of Alice and Bob establishing a quantum channel to send bits they can use to encrypt a message. If Eve interferes with the quantum state of the qubits then Alice and Bob will obtain measurement values that differ when compared to random bases, with a difference of more than 50\% being an indication that someone had eavesdropped on the communication channel.
+The code \cite{Dale2023Leedale1981/msc-applied-crypto-coursework:Code.} in listing 1 is a Q\# implementation of the BB84 protocol outlined above and runs through the steps of Alice and Bob establishing a quantum channel to send bits they can later use to encrypt a message. If Eve interferes with the quantum state of the Qubits then Alice and Bob will obtain measurement values that differ when compared to random bases, with a difference of more than 50\% being an indication that someone had eavesdropped on the communication channel.
 
 \begin{lstlisting}[language={[Sharp]C}, caption={Q\# Microsoft Quantum Development Kit}, label={Script}]
 
@@ -311,7 +322,7 @@ namespace Cryptography.BB84.Quantum {
 
 Listing 2 and 3 below show the execution of the process with a 6 bit key. The driver code written in C\# passes in 4n bits to the BB84 protocol. This results in Qubits with a length of 24.
 
-The BB84 protocol is first  executed with Eve interfering with the Qubits. On this run a difference of  ~65\% is calculated for the measurements that differ when Bob measures .
+The BB84 protocol is first  executed with Eve interfering with the Qubits. On this run a difference of  ~65\% is calculated for the measurements that differ when Bob measures from his random bases.
 
 \begin{lstlisting}[language={[Sharp]C}, caption={C\# Driver code executes process with a 6 bit key}, label={Script}]
 
@@ -345,18 +356,19 @@ public class BB84
 
 \end{lstlisting}
 
-\begin{lstlisting}[language={[Sharp]C}, caption={C\# Driver code sets the key length to 6}, label={Script}]
+\subsection{Execution}
 
-using Cryptography.BB84;
-BB84.Run(6);
+We execute the BB84 program twice, once with Eve interfering with the Qubits and once without Eve interfering. The results can be seen in the outputs below.
 
-\end{lstlisting}
+\vspace{5mm}
 
 \includegraphics[width=0.5\textwidth]{BB84Output.jpg}
 
 \vspace{5mm}
 
-The result below shows the process being executed a second time but this time without Eve inteferring with the qubits. As you can see this results in a percentage difference of 25%.
+As you can see from the above execution, when there was an eavesdropper in the communication channel the calculated difference between Alice and Bob's measurements was 65\%. This is an expected result because if there was no eavesdropper then the expected result would be no more than a 50\% difference between Alice and Bob's measurements. The fact that Eve changed the quantum state of the Qubits means that there will be a statistically higher difference percentage than usual. Alice and Bob know there was a eavesdropper in the communication channel, they discard the bits that have been interfered with and try sending the bits again. They do this until they have enough bits to use for their encryption key.
+
+The second execution is then run without an eavesdropper.
 
 \vspace{5mm}
 
@@ -364,7 +376,10 @@ The result below shows the process being executed a second time but this time wi
 
 \vspace{5mm}
 
-When Eve interfered with the qubits the result of the difference measurement was 65\% when no eavesdropping occurred then the differences were only 25\%. This shows that the amount of difference in bases comparisons increases when there is an eavesdropper interfering with the qubits. A percentage threshold can be set to determine when Alice and Bob should retry their communication based on a set percentage of difference of measurements.
+The result above shows the process being executed a second time but this time without Eve interfering with the Qubits. As you can see this results in a percentage difference of 25\%.
+
+\subsection{Results}
+When Eve interfered with the Qubits the result of the difference measurement was 65\%. When no eavesdropping occurred the differences percentage dropped to  only 25\%. This shows that the amount of difference in bases comparisons increases when there is an eavesdropper interfering with the qubits. A percentage threshold can be set to determine when Alice and Bob should retry their communication based on a set percentage of difference of measurements.
 
 \section{Conclusions}
 
