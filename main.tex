@@ -60,12 +60,12 @@ The RSA algorithm works by selecting two large prime numbers, p and q, and multi
 
 The private key in RSA cryptography is derived from the factors p and q of n, which are kept secret. The public key, on the other hand, is the modulus n and an exponent e and are shared between the two parties.
 
-When we encrypt a message with RSA, the message is first converted into a number and then raised to the power of the public exponent e modulo n. The resulting ciphertext can only be decrypted using the private key. To obtain this private key would  involve factoring the modulus n back into its two prime factors p and q.
+When we encrypt a message with RSA, we convert the message into a number and then raise that number to the power of the exponent e, we then take the modulo N. The resulting ciphertext can only be decrypted using the private key. To obtain this private key would  involve factoring the modulus n back into its two prime factors p and q.
 
 The hardness of the prime factorization problem comes from the fact that to try and mathematically compute which prime factors make up the modulus would need a classical computer to execute an algorithm that tries all possible factors. This would fall into exponential time complexity and therefore, for any large enough modulus becomes an impossible problem to solve for a classical computer in any reasonable amount of time.  In contrast to this a quantum computer with the right algorithm would be able to easily try all possible factors in polynomial time.
 
 \subsubsection{Discrete Logs}
-Discrete logarithms are used in various common public key cryptography algorithms, such as Diffie-Hellman key exchange, ElGamal encryption which are both used in popular web browser implementations. Discrete logs can also be used in  digital signature schemes like the Digital Signature Algorithm (DSA).
+Discrete logarithms are used in various common public key cryptography algorithms, such as ElGamal encryption and the Diffie-Hellman key exchange which are both used in popular web browser implementations. Discrete logs can also be used in  digital signature schemes like the Digital Signature Algorithm (DSA).
 
 In discrete log algorithms the difficulty comes from the fact that computing a discrete logarithm in certain mathematical groups is a hard problem and is used as the guarantee of security.
 
@@ -84,19 +84,19 @@ Each party, then chooses a secret value, which is kept private. They use these s
 
 Lets say that two parties called Alice and Bob want to communicate using ECDH. They compute their public keys as follows:
 
-Alice computes her public key A = ag on the elliptic curve.
-Bob computes his public key B = bg on the elliptic curve.
+Alice generates her public key \[A = ag\]
+Bob generates his public key \[B = bg\] 
 Alice and Bob then exchange their public keys A and B over an insecure channel.
 
 Where Alice's secret value is a, Bob's is b and g is the generator which is a value chosen to lie on the elliptic curve.
 
 Once Alice and Bob have exchanged their public keys, they can derive a shared secret key using the following steps:
 
-Alice computes the point K = aB on the elliptic curve.
-Bob computes the point K = bA on the elliptic curve.
+Alice generates the point \[K = aB\]
+Bob generates the point \[K = bA\] 
 The shared secret key is then derived from the x-coordinate of the point K which matches for both Alice and Bob.
 
-The security of ECDH comes from the fact that it is difficult to compute the private keys a and b from the public keys A and B, even if the elliptic curve and the generator are known.
+The security of ECDH comes from the fact that it is difficult to compute the private keys from the public keys, even if the elliptic curve and the generator are known.
 
 All the methods above are vulnerable to quantum computers by the fact that they rely on the exponential time complexity of the mathematically hard problem. As we will understand next quantum computers can drastically reduce the execution time of finding out the secret keys which could make all current cryptography methods obsolete.
 
