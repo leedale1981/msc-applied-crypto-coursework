@@ -37,20 +37,18 @@ sorting=ynt
 
 \section{Introduction}
 
-At some point in the future quantum computers will have enough processing power or Qubits to successfully implement quantum algorithms that can break the encryption of our current state of the art public key exchange mechanisms \cite{Bellizia2021Post-QuantumDesign}. Once this happens there will be a need for robust quantum key exchange methods that allow privacy of message exchange to be maintained, even when subjected to a quantum computing algorithms. Quantum computers with new quantum based algorithms will also make it possible to brute force current encryption keys in polynomial time. This puts any data that is currently encrypted with todays state of the art encryption algorithms in jeopardy of being cracked and made available for anyone with a quantum computer to view. Once a quantum computer with enough Qubits becomes available for general use it will mean they can also be used to keep communications between two parties secret.
+Currently the world of cryptography is solely based on what classical computers can achieve with well know Turing machine based algorithms. Quantum computers don't come into the picture when it comes to general use encryption. This  is set to change as quantum computers start to gain enough Qubits to successfully implement general use quantum algorithms that can break the encryption of our current state of the art public key exchange mechanisms \cite{Bellizia2021Post-QuantumDesign}. Once this happens there will be a need for robust quantum key exchange methods that allow privacy of message exchange to be maintained, even when subjected to a quantum computing algorithms. Quantum computers with new quantum based algorithms will also make it possible to brute force current encryption keys in polynomial time. This puts any data that is currently encrypted with todays state of the art encryption algorithms in jeopardy of being cracked and made available for anyone with a quantum computer to view. Once a quantum computer with enough Qubits becomes available for general use it will mean they can also be used to keep communications between two parties secret.
 
 This paper outlines the current weaknesses in todays cryptography schemes including public key exchange methods that rely on the a mathematically hard to compute private key, and why these will be vulnerable to quantum computers in the future. It will then outline some key solutions to this problem that will be robust in a post quantum world. 
 
 \section{Literature Review}
 
 \subsection{Overview of current key exchange mechanisms}
-As it stands most communication methods used over the internet rely on asymmetric cryptography
+As it stands pretty much all of  communication methods used over the internet are based on asymmetric cryptography
 
-The methods currently available to us for key exchange fall into three main categories that all rely on the premise that there is publicly available information used for the key exchange between two parties and there is also private information only known to the individual. The secrecy of the public key exchange relies on the fact  that it is hard to compute using a typical Turing state machine approach of classical computers. 
+The methods currently available to us for key exchange fall into three main categories that all rely on the premise that there is publicly available information used for the key exchange between two parties and there is also private information only known to the individual. The secrecy of the public key exchange relies on the fact  that it is hard to compute using a typical Turing state machine approach of classical computers 
 
-Anderson mentions \cite{AndersonR2020} "The technique is to make the security of the cipher depend on the difficulty of solving a certain mathematical problem. The two problems which are used in almost all fielded systems are factorization (used in most commercial systems) and discrete logarithm (used in many government systems)." 
-
-I have broken discrete logarithms into two categories, with the addition of discrete logarithms that use elliptic curves. These are outlined below.
+The two main mathematical problems that most public key exchange mechanisms are built on are prime factorization and discrete logarithms \cite{AndersonR2020}. Discrete logarithms can be further broken down into two categories, with the addition of discrete logarithms that use elliptic curves. I will outline how these are implemented and how each one provides security guarantees based on it's particular mathementical problem.
 
 \subsubsection{Prime Factorization}
 
@@ -58,7 +56,7 @@ In current key exchange methods such as the RSA method, prime factorization is t
 
 A factorization problem hinges on the fact that it is easy to compute a number N from two primes, but it is difficult to compute which prime numbers are factors of the product N. Imagine two 64 bit prime numbers used to create a 128bit modulus. A 64 bit number can be in the range \[2^{64}\] which is a large number. To brute force the factorization you would have to compute all possible primes that factorize with another 64 bit prime to make N
 
-The RSA algorithm works by selecting two large prime numbers, p and q, and multiplying them together to obtain a product, $n = p*q$. This product n is then used as the modulus for the public and private keys.
+The RSA algorithm works by selecting two large prime numbers, p and q, and multiplying them together to obtain a product, $N = p*q$.  N is called the modulus and is used for generating the private and public keys. 
 
 The private key in RSA cryptography is derived from the factors p and q of n, which are kept secret. The public key, on the other hand, is the modulus n and an exponent e and are shared between the two parties.
 
@@ -67,11 +65,11 @@ When we encrypt a message with RSA, the message is first converted into a number
 The hardness of the prime factorization problem comes from the fact that to try and mathematically compute which prime factors make up the modulus would need a classical computer to execute an algorithm that tries all possible factors. This would fall into exponential time complexity and therefore, for any large enough modulus becomes an impossible problem to solve for a classical computer in any reasonable amount of time.  In contrast to this a quantum computer with the right algorithm would be able to easily try all possible factors in polynomial time.
 
 \subsubsection{Discrete Logs}
-Discrete logarithms are used in various public key cryptography algorithms, such as Diffie-Hellman key exchange, ElGamal encryption, and digital signature schemes like the Digital Signature Algorithm (DSA).
+Discrete logarithms are used in various common public key cryptography algorithms, such as Diffie-Hellman key exchange, ElGamal encryption which are both used in popular web browser implementations. Discrete logs can also be used in  digital signature schemes like the Digital Signature Algorithm (DSA).
 
 In discrete log algorithms the difficulty comes from the fact that computing a discrete logarithm in certain mathematical groups is a hard problem and is used as the guarantee of security.
 
-In the context of public key cryptography, the groups used are typically elliptic curves, and the discrete logarithm problem refers to the challenge of finding the exponent required to generate a given element of the group from a fixed base element.
+In the context of public key cryptography, the groups used are typically elliptic curves, and the discrete logarithm problem refers to the difficulty of finding the exponent required to generate a given element of the group from a fixed base element.
 
 For example, in the Diffie-Hellman key exchange protocol, two parties agree on a generator and a prime number, and publicly exchange their exponentiation of the generator with a randomly generated value modulus the prime number. The shared secret key is computed from their respective exponentiation of each others public key with their random value modulus the prime number. The difficulty for an attacker is determining the secret exponents used by both parties to generate the public key.
 
@@ -126,7 +124,7 @@ This means with a quantum computer it will become feasible for an attacker to fi
 Various methods have been devised to deal with a world where quantum computers are able to crack encryption keys up to 2048 bits long. Kumar and Garhwal state that quantum protocols are based on either the Heisenberg Uncertainty principle or quantum entanglement \cite{Kumar2021State-of-the-ArtCryptography} I will outline the most notable methods in this section and then focus on quantum key distribution based on quantum entanglement. 
 
 \subsubsection{Lattice based cryptography}
-Lattice based cryptography is a promising area of post quantum cryptography. At its heart lattice based cryptography is built on the premise that finding a mathematical solution to a lattice based problem is said to be a hard problem to solve. Lattices are generated by starting with a set of basis vectors and generating a lattice by adding new vectors to the basis vectors. An example of a problem based around a lattice is the closest vector problem. The closest vector problem might ask us to find the set of vectors that give us the point closest to the origin but not equal to the origin. Brute forcing this problem is extremely hard computationally and the hardness can be increased by increasing the dimensions of the lattice. It is said that there exists no polynomial time algorithm that can approximate this lattice based problem within polynomial factors \cite{Micciancio2008Lattice-based}. Lattice based problems are also said to be hard problems for quantum computers as there doesn't yet exist any known algorithm for a quantum computer that can solve higher dimensional lattice based problems in less than exponential time \cite{Micciancio2008Lattice-based}.
+Lattice based cryptography is a promising area of post quantum cryptography. At its heart lattice based cryptography is built on the premise that finding a mathematical solution to a lattice based problem is said to be a hard problem to solve. Lattices are generated by starting with a set of basis vectors and generating a lattice by adding new vectors to the basis vectors. An example of a problem based around a lattice is the closest vector problem. The closest vector problem might ask us to find the set of vectors that give us the point closest to the origin but not equal to the origin. Brute forcing this problem is extremely hard computationally and the hardness can be increased to a point where solving it falls into exponential time complexity by increasing the dimensions of the lattice to a higher number such as 100. It is said that there exists no polynomial time algorithm that can approximate this lattice based problem within polynomial factors \cite{Micciancio2008Lattice-based}. Lattice based problems are also said to be hard problems for quantum computers as there doesn't yet exist any known algorithm for a quantum computer that can solve higher dimensional lattice based problems in less than exponential time \cite{Micciancio2008Lattice-based}.
 
 Even though there is currently no polynomial time algorithm for solving higher dimensional lattice based problems this doesn't prove that lattice based cryptography will never be susceptible to a new algorithm for quantum computers.
 
@@ -138,7 +136,7 @@ Lattice based cryptography is therefore a way to generate encryption keys that a
 The no cloning theorem in quantum mechanics leads us to an interesting way of distributing secret keys between two parties. If we use a secret key that exists in a superposition of entangled states and subsequently share this secret key between two parties, there would always be a way to detect whether the key had been tampered with in transit. This is explained by the fact that if an eavesdropper had modified the key in any way (in quantum mechanics we say that the entangled state was observed) the secret key would have de-cohered into one of the many possible superposition of states and therefore each party would be able to detect the eavesdroppers attempt at intercepting the secret key. 
 
 \subsubsection{Quantum key distribution using entangled photons}
-From Kumar and Garhwal \cite{Kumar2021State-of-the-ArtCryptography} quantum key distribution protocols are classified into two categories; Discrete variable QKD and Continuous variable QKD. Discrete variable QKD is based around the spin of an electron or the polarization of a single photon. Continuous variable QKD is mainly based around the use of a laser to store information in the form if a continuous light source.
+From Kumar and Garhwal \cite{Kumar2021State-of-the-ArtCryptography} quantum key distribution protocols can be classified as either; Discrete variable QKD or Continuous variable QKD. Discrete variable QKD is based around the spin of an electron or the polarization of a single photon. Continuous variable QKD is mainly based around the use of a laser to store information in the form of a continuous light source.
 
 We will concentrate here on a discrete variable QKD example in the BB84 protocol which uses the polarization of single photons.  
 
@@ -147,7 +145,7 @@ The BB84 protocol was first introduced by Charles Bennet and Gilles Brassard in 
 The interesting thing about the BB84 protocol is that both channels can be public channels and the two parities do not need to share any prior information before exchanging a symmetric key. The symmetric key exchanged can be guaranteed to be  secret as any form in eavesdropping will be detected by either party. No amount of computing power can avoid detection over the quantum channel and this is why QKD is a quantum robust method of communication. The technical details of the BB84 protocol are outlined in the implementation section.
 
 \subsubsection{Quantum key distribution using Muon detection }
-Quantum key distribution based on quantum properties such as entanglement and the Heisenberg's uncertainty principle have been shown to have weakness that could allow an eavesdropper to go undetected in the communication process. It has been shown possible to shine bright light on single-photon detectors within the quantum communication channel turning them into classical devices. This is the basis of a faked-state attack \cite{Guskind2009ControllingLight} in which Eve is able to eavesdrop on the quantum key exchange between Alice and Bob and stay undetected.
+Quantum key distribution based on entanglement and the Heisenberg's uncertainty principle have been shown to have weakness that could allow an eavesdropper to go undetected in the communication process. It has been shown possible to shine bright light on single-photon detectors within the quantum communication channel turning them into classical devices. This is the basis of a faked-state attack \cite{Guskind2009ControllingLight} in which Eve is able to eavesdrop on the quantum key exchange between Alice and Bob and stay undetected.
 Instead of using entangled photos as a source of quantum bits in which to transfer between Alice and Bob, a recent article \cite{Cartlidge2023MuonsSystem} proposed the use of Cosmic rays that rain down on Alice and Bob from deep space as a source of quantum randomness in which to form an encryption key. This method was created by Hiroyuki Tanaka at the University of Tokyo and is called Cosmic Coding and Transfer (COSMOCAT). The way this works is as the cosmic rays hit the Earths atmosphere they decay into Muons, and each participant in the communication can detect these Muons with a detector. They can then generate the same secret keys from the timestamp of when the individual Muons hit the detectors and thus never have to exchange a secret key or send each other bits over a quantum communication channel. 
 
 The advantage of this method is that the source of bits comes from an external source and can never be interfered with by an eavesdropper. Currently limitations in the hardware accuracy mean that only about 20\% of the Muons detected are able to be used for a secret key.
@@ -387,7 +385,11 @@ I have outlined the problems with cryptography that relies on hard to compute ma
 For generating encryption keys it seems that lattice based cryptography methods are showing the most promise as protection against the computation power of quantum computers and this is most likely the area where the most benefits will be shown in the early stages of a post quantum world. 
 In terms of communications channels then QKD methods will likely be adopted with more advanced methods like using Muons or other sources of quantum randomness to generate secret keys being used when methods become more refined and hardware is able to support the methods.
 
+
 \printbibliography
+
+\section{Declaration}
+I declare that all work in this submission is my own work.
 
 \end{document}
 
