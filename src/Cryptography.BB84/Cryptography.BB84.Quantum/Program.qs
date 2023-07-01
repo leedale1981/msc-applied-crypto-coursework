@@ -25,7 +25,7 @@
         Message("Sending bits across quantum channel...");
 
         // Eve interferes with the qubits
-        Message("Eve interferring with qubits...");
+         Message("Eve interferring with qubits...");
         let (eveBases, eveResult) = Eavesdrop(qubits, 1.0);
 
         // Bob now selects random basis and measures qubit using either Pauli X or Pauli Z basis.
